@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skate Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .part {
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        img {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Skate Builder</h2>
+        <div class="part" id="noise" onclick="nextImage('noise')">
+            <img src="data:image/jpeg;base64,IMAGE_BASE64_DATA_1" alt="noise">
+        </div>
+        <div class="part" id="central" onclick="nextImage('central')">
+            <img src="data:image/jpeg;base64,IMAGE_BASE64_DATA_2" alt="central">
+        </div>
+        <div class="part" id="tail" onclick="nextImage('tail')">
+            <img src="data:image/jpeg;base64,IMAGE_BASE64_DATA_3" alt="tail">
+        </div>
+        <div class="display" id="display-noise"></div>
+        <div class="display" id="display-central"></div>
+        <div class="display" id="display-tail"></div>
+    </div>
+    <script>
+        const images = {
+            noise: ["./img/noise/1.png", "./img/noise/2.png", "./img/noise/3.png","./img/noise/4.png"],
+            central: ["./img/central/1.png", "./img/central/2.png", "./img/central/3.png","./img/central/4.png"],
+            tail: ["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png","./img/tail/4.png"]
+        };
+
+        function nextImage(part) {
+            const partElem = document.getElementById(part).querySelector('img');
+            const currentImage = partElem.src.split('/').pop(); // Get only the file name from the src
+            const currentIndex = images[part].map(img => img.split('/').pop()).indexOf(currentImage);
+            const nextIndex = (currentIndex + 1) % images[part].length;
+            partElem.src = images[part][nextIndex];
+        }
+        function updateDisplay(part, imageSrc) {
+            const displayElem = document.getElementById(`display-${part}`);
+            const imageName = imageSrc.split('/').pop();
+            displayElem.textContent = `Current ${part}: ${imageName}`;
+        }
+        nextImage("noise");
+        nextImage("central");
+        nextImage("tail");
+    </script>
+
+</body>
+</html>
