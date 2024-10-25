@@ -60,6 +60,7 @@
             const currentIndex = images[part].map(img => img.split('/').pop()).indexOf(currentImage);
             const nextIndex = (currentIndex + 1) % images[part].length;
             partElem.src = images[part][nextIndex];
+            updateDisplay(part, images[part][nextIndex]);
         }
         function updateDisplay(part, imageSrc) {
             const displayElem = document.getElementById(`display-${part}`);
