@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skate Builder Carousel</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -15,26 +16,24 @@
             margin: 0;
         }
         .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
             text-align: center;
-            width: 1000px;
         }
         .carousel {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 400px;
+            height: 50vh;
             margin-bottom: 5px;
             position: relative;
             perspective: 1000px;
-            overflow: hidden;
+            overflow: visible;
         }
         .carousel img {
-            width: 200px;
+            width: 150px;
             height: auto;
             transition: transform 0.5s ease, opacity 0.5s ease;
             opacity: 0.2;
@@ -47,6 +46,8 @@
             transform: translateX(0) translateY(-50%) scale(1.2) rotateY(0);
             opacity: 1;
             z-index: 3;
+            border-style:groove;
+            border-radius: 1cap;
         }
         .carousel img.previous {
             transform: rotateY(-45deg) translateX(-300px) translateY(-50%) scale(0.9);
@@ -62,13 +63,17 @@
             display: none;
         }
         #carousel-noise{
-            height: 120px;
+            height: auto
         }
         #carousel-tail{
-            height: 120px;
+            height: auto;
         }
 
-
+        @media (max-width: 768px) {
+            .carousel  {
+                transform: translateX(0)  scale(0.6) ;
+            }
+        }
 
 
 
@@ -77,6 +82,7 @@
 <body>
     <div class="container">
         <h2>Skate Builder Carousel</h2>
+        <div> &nbsp;</div>
         <div class="carousel" id="carousel-noise">
             <img src="./img/noise/4.png" alt="noise" class="previous">
             <img src="./img/noise/1.png" alt="noise" class="current">
