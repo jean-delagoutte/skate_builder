@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skate Builder</title>
+    <title>Skate Builder Carousel</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,57 +20,188 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 1000px;
         }
-        .part {
-            margin-bottom: 20px;
+        .carousel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 400px;
+            margin-bottom: 5px;
+            position: relative;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+        .carousel img {
+            width: 200px;
+            height: auto;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0.2;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%) rotateY(45deg);
             cursor: pointer;
         }
-        img {
-            border: 1px solid #ddd;
-            border-radius: 10px;
+        .carousel img.current {
+            transform: translateX(0) translateY(-50%) scale(1.2) rotateY(0);
+            opacity: 1;
+            z-index: 3;
         }
+        .carousel img.previous {
+            transform: rotateY(-45deg) translateX(-300px) translateY(-50%) scale(0.9);
+            opacity: 0.5;
+            z-index: 2;
+        }
+        .carousel img.next {
+            transform: rotateY(45deg) translateX(300px) translateY(-50%) scale(0.9);
+            opacity: 0.5;
+            z-index: 2;
+        }
+        .controls {
+            display: none;
+        }
+        #carousel-noise{
+            height: 120px;
+        }
+        #carousel-tail{
+            height: 120px;
+        }
+
+
+
+
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Skate Builder</h2>
-        <div class="part" id="noise" onclick="nextImage('noise')">
-            <img src="data:image/jpeg;base64,IMAGE_BASE64_DATA_1" alt="noise">
+        <h2>Skate Builder Carousel</h2>
+        <div class="carousel" id="carousel-noise">
+            <img src="./img/noise/4.png" alt="noise" class="previous">
+            <img src="./img/noise/1.png" alt="noise" class="current">
+            <img src="./img/noise/2.png" alt="noise" class="next">
+            <img src="./img/noise/3.png" alt="noise" class="hidden">
         </div>
-        <div class="part" id="central" onclick="nextImage('central')">
-            <img src="data:image/jpeg;base64,IMAGE_BASE64_DATA_2" alt="central">
+
+        <div class="carousel" id="carousel-central">
+            <img src="./img/central/4.png" alt="central" class="previous">
+            <img src="./img/central/1.png" alt="central" class="current">
+            <img src="./img/central/2.png" alt="central" class="next">
+            <img src="./img/central/3.png" alt="central" class="hidden">
         </div>
-        <div class="part" id="tail" onclick="nextImage('tail')">
-            <img src="data:image/jpeg;base64,IMAGE_BASE64_DATA_3" alt="tail">
+
+        <div class="carousel" id="carousel-tail">
+            <img src="./img/tail/4.png" alt="tail" class="previous">
+            <img src="./img/tail/1.png" alt="tail" class="current">
+            <img src="./img/tail/2.png" alt="tail" class="next">
+            <img src="./img/tail/3.png" alt="tail" class="hidden">
         </div>
-        <div class="display" id="display-noise"></div>
-        <div class="display" id="display-central"></div>
-        <div class="display" id="display-tail"></div>
     </div>
+
     <script>
         const images = {
-            noise: ["./img/noise/1.png", "./img/noise/2.png", "./img/noise/3.png","./img/noise/4.png"],
-            central: ["./img/central/1.png", "./img/central/2.png", "./img/central/3.png","./img/central/4.png"],
-            tail: ["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png","./img/tail/4.png"]
+            noise: ["./img/noise/1.png", "./img/noise/2.png", "./img/noise/3.png", "./img/noise/4.png"],
+            central: ["./img/central/1.png", "./img/central/2.png", "./img/central/3.png", "./img/central/4.png"],
+            tail: ["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png", "./img/tail/4.png"]
         };
 
-        function nextImage(part) {
-            const partElem = document.getElementById(part).querySelector('img');
-            const currentImage = partElem.src.split('/').pop(); // Get only the file name from the src
-            const currentIndex = images[part].map(img => img.split('/').pop()).indexOf(currentImage);
+        function updateCarousel(part) {
+            const carousel = document.getElementById(`carousel-${part}`);
+            const imgs = carousel.querySelectorAll('img');
+            const currentIndex = parseInt(carousel.dataset.currentIndex);
             const nextIndex = (currentIndex + 1) % images[part].length;
-            partElem.src = images[part][nextIndex];
-            updateDisplay(part, images[part][nextIndex]);
+            const prevIndex = (currentIndex - 1 + images[part].length) % images[part].length;
+            imgs.forEach((img, index) => {
+                img.className = 'hidden';
+                if (index === currentIndex) {
+                    img.className = 'current';
+                } else if (index === nextIndex) {
+                    img.className = 'next';
+                } else if (index === prevIndex) {
+                    img.className = 'previous';
+                }
+            });
         }
-        function updateDisplay(part, imageSrc) {
-            const displayElem = document.getElementById(`display-${part}`);
-            const imageName = imageSrc.split('/').pop();
-            displayElem.textContent = `Current ${part}: ${imageName}`;
-        }
-        nextImage("noise");
-        nextImage("central");
-        nextImage("tail");
-    </script>
 
+        function nextImage(part) {
+            const carousel = document.getElementById(`carousel-${part}`);
+            carousel.dataset.currentIndex = (parseInt(carousel.dataset.currentIndex) + 1) % images[part].length;
+            updateCarousel(part);
+        }
+
+        function previousImage(part) {
+            const carousel = document.getElementById(`carousel-${part}`);
+            carousel.dataset.currentIndex = (parseInt(carousel.dataset.currentIndex) - 1 + images[part].length) % images[part].length;
+            updateCarousel(part);
+        }
+
+        // Swipe and click functionality
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            let startX;
+            let isDragging = false;
+
+            carousel.addEventListener('mousedown', (e) => {
+                startX = e.clientX;
+                isDragging = true;
+            });
+
+            carousel.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                }
+            });
+
+            carousel.addEventListener('mouseup', (e) => {
+                if (isDragging) {
+                    const endX = e.clientX;
+                    if (startX > endX + 50) {
+                        nextImage(carousel.id.split('-')[1]);
+                    } else if (startX < endX - 50) {
+                        previousImage(carousel.id.split('-')[1]);
+                    }
+                }
+                isDragging = false;
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                isDragging = false;
+            });
+
+            carousel.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+            });
+
+            carousel.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+            });
+
+            carousel.addEventListener('touchend', (e) => {
+                const endX = e.changedTouches[0].clientX;
+                if (startX > endX + 50) {
+                    nextImage(carousel.id.split('-')[1]);
+                } else if (startX < endX - 50) {
+                    previousImage(carousel.id.split('-')[1]);
+                }
+            });
+
+            // Click functionality for images
+            carousel.addEventListener('click', (e) => {
+                if (e.target.classList.contains('next')) {
+                    nextImage(carousel.id.split('-')[1]);
+                } else if (e.target.classList.contains('previous')) {
+                    previousImage(carousel.id.split('-')[1]);
+                }
+            });
+        });
+
+        // Initial setup
+        document.getElementById('carousel-noise').dataset.currentIndex = 0;
+        document.getElementById('carousel-central').dataset.currentIndex = 0;
+        document.getElementById('carousel-tail').dataset.currentIndex = 0;
+        updateCarousel('noise');
+        updateCarousel('central');
+        updateCarousel('tail');
+    </script>
 </body>
 </html>
