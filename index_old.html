@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skate Builder Carousel</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .carousel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 50vh;
+            margin-bottom: 5px;
+            position: relative;
+            perspective: 1000px;
+            overflow: visible;
+        }
+        .carousel img {
+            width: 150px;
+            height: auto;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0.2;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%) rotateY(45deg);
+            cursor: pointer;
+        }
+        .carousel img.current {
+            transform: translateX(0) translateY(-50%) scale(1.2) rotateY(0);
+            opacity: 1;
+            z-index: 3;
+            border-style:groove;
+            border-radius: 1cap;
+        }
+        .carousel img.previous {
+            transform: rotateY(-45deg) translateX(-300px) translateY(-50%) scale(0.9);
+            opacity: 0.5;
+            z-index: 2;
+        }
+        .carousel img.next {
+            transform: rotateY(45deg) translateX(300px) translateY(-50%) scale(0.9);
+            opacity: 0.5;
+            z-index: 2;
+        }
+        .controls {
+            display: none;
+        }
+        #carousel-noise{
+            height: auto
+        }
+        #carousel-tail{
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .carousel  {
+                transform: translateX(0)  scale(0.6) ;
+            }
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Skate Builder Carousel</h2>
+        <div> &nbsp;</div>
+        <div class="carousel" id="carousel-noise">
+            <img src="./img/noise/4.png" alt="noise" class="previous">
+            <img src="./img/noise/1.png" alt="noise" class="current">
+            <img src="./img/noise/2.png" alt="noise" class="next">
+            <img src="./img/noise/3.png" alt="noise" class="hidden">
+        </div>
+
+        <div class="carousel" id="carousel-central">
+            <img src="./img/central/4.png" alt="central" class="previous">
+            <img src="./img/central/1.png" alt="central" class="current">
+            <img src="./img/central/2.png" alt="central" class="next">
+            <img src="./img/central/3.png" alt="central" class="hidden">
+        </div>
+
+        <div class="carousel" id="carousel-tail">
+            <img src="./img/tail/4.png" alt="tail" class="previous">
+            <img src="./img/tail/1.png" alt="tail" class="current">
+            <img src="./img/tail/2.png" alt="tail" class="next">
+            <img src="./img/tail/3.png" alt="tail" class="hidden">
+        </div>
+    </div>
+
+    <script>
+        const images = {
+            noise: ["./img/noise/1.png", "./img/noise/2.png", "./img/noise/3.png", "./img/noise/4.png"],
+            central: ["./img/central/1.png", "./img/central/2.png", "./img/central/3.png", "./img/central/4.png"],
+            tail: ["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png", "./img/tail/4.png"]
+        };
+
+        function updateCarousel(part) {
+            const carousel = document.getElementById(`carousel-${part}`);
+            const imgs = carousel.querySelectorAll('img');
+            const currentIndex = parseInt(carousel.dataset.currentIndex);
+            const nextIndex = (currentIndex + 1) % images[part].length;
+            const prevIndex = (currentIndex - 1 + images[part].length) % images[part].length;
+            imgs.forEach((img, index) => {
+                img.className = 'hidden';
+                if (index === currentIndex) {
+                    img.className = 'current';
+                } else if (index === nextIndex) {
+                    img.className = 'next';
+                } else if (index === prevIndex) {
+                    img.className = 'previous';
+                }
+            });
+        }
+
+        function nextImage(part) {
+            const carousel = document.getElementById(`carousel-${part}`);
+            carousel.dataset.currentIndex = (parseInt(carousel.dataset.currentIndex) + 1) % images[part].length;
+            updateCarousel(part);
+        }
+
+        function previousImage(part) {
+            const carousel = document.getElementById(`carousel-${part}`);
+            carousel.dataset.currentIndex = (parseInt(carousel.dataset.currentIndex) - 1 + images[part].length) % images[part].length;
+            updateCarousel(part);
+        }
+
+        // Swipe and click functionality
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            let startX;
+            let isDragging = false;
+
+            carousel.addEventListener('mousedown', (e) => {
+                startX = e.clientX;
+                isDragging = true;
+            });
+
+            carousel.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                }
+            });
+
+            carousel.addEventListener('mouseup', (e) => {
+                if (isDragging) {
+                    const endX = e.clientX;
+                    if (startX > endX + 50) {
+                        nextImage(carousel.id.split('-')[1]);
+                    } else if (startX < endX - 50) {
+                        previousImage(carousel.id.split('-')[1]);
+                    }
+                }
+                isDragging = false;
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                isDragging = false;
+            });
+
+            carousel.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+            });
+
+            carousel.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+            });
+
+            carousel.addEventListener('touchend', (e) => {
+                const endX = e.changedTouches[0].clientX;
+                if (startX > endX + 50) {
+                    nextImage(carousel.id.split('-')[1]);
+                } else if (startX < endX - 50) {
+                    previousImage(carousel.id.split('-')[1]);
+                }
+            });
+
+            // Click functionality for images
+            carousel.addEventListener('click', (e) => {
+                if (e.target.classList.contains('next')) {
+                    nextImage(carousel.id.split('-')[1]);
+                } else if (e.target.classList.contains('previous')) {
+                    previousImage(carousel.id.split('-')[1]);
+                }
+            });
+        });
+
+        // Initial setup
+        document.getElementById('carousel-noise').dataset.currentIndex = 0;
+        document.getElementById('carousel-central').dataset.currentIndex = 0;
+        document.getElementById('carousel-tail').dataset.currentIndex = 0;
+        updateCarousel('noise');
+        updateCarousel('central');
+        updateCarousel('tail');
+    </script>
+</body>
+</html>

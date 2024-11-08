@@ -26,11 +26,11 @@ class CarouselComponent extends HTMLElement {
             cursor: pointer;
         }
         .carousel img.current {
-            transform: translateX(0) translateY(-50%) scale(1.2) rotateY(0);
+            transform: translateX(0) translateY(-50%) scale(1) rotateY(0);
             opacity: 1;
             z-index: 3;
-            border-style:groove;
-            border-radius: 1cap;
+           /* border-style:groove;
+            border-radius: 1cap;*/
         }
         .carousel img.previous {
             transform: rotateY(-45deg) translateX(-300px) translateY(-50%) scale(0.9);
@@ -43,8 +43,9 @@ class CarouselComponent extends HTMLElement {
             z-index: 2;
         }
         .carousel img.hidden {
-            opacity: 0.5;
-            z-index: 2;
+            transform: translateY(-50%) scale(0.5);
+            opacity: 0.1;
+            z-index: 1;
         }
                 @media (max-width: 768px) {
                     .carousel  {

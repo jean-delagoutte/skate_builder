@@ -14,7 +14,6 @@ class SkateBuilderComponent extends HTMLElement {
                 }
                 .carousel {
                     margin-bottom: 10px; /* Réduisez cette valeur pour rapprocher les carrousels */
-                    height: auto; /* Ajustez la hauteur pour éviter les espaces supplémentaires */
                     position: static; /* Utilisez position: static pour les carrousels */
                 }
                 .title {
