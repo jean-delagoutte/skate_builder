@@ -24,27 +24,27 @@ class CarouselComponent extends HTMLElement {
                     cursor: pointer;
                     position: absolute;
                 }
-        .carousel img.current {
-            transform: translateX(0)  scale(1) rotateY(0);
-            opacity: 1;
-            z-index: 3;
-            
-        }
-        .carousel img.previous {
-            transform: rotateY(-45deg) translateX(-120%) scale(0.8);
-            opacity: 0.5;
-            z-index: 2;
-        }
-        .carousel img.next {
-            transform: rotateY(45deg) translateX(120%) scale(0.8);
-            opacity: 0.7;
-            z-index: 2;
-          }
-        .carousel img.hidden {
-            transform: translateY(0) scale(0.5);
-            opacity: 0.1;
-            z-index: 1;
-        }
+                .carousel img.current {
+                    transform: translateX(0)  scale(1) rotateY(0);
+                    opacity: 1;
+                    z-index: 3;
+                    
+                }
+                .carousel img.previous {
+                    transform: rotateY(-45deg) translateX(-120%) scale(0.8);
+                    opacity: 0.5;
+                    z-index: 2;
+                }
+                .carousel img.next {
+                    transform: rotateY(45deg) translateX(120%) scale(0.8);
+                    opacity: 0.7;
+                    z-index: 2;
+                }
+                .carousel img.hidden {
+                    transform: translateY(0) scale(0.5);
+                    opacity: 0.1;
+                    z-index: 1;
+                }
             </style>
             <div class="carousel"></div>
         `;

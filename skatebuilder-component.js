@@ -1,3 +1,5 @@
+import('./carousel-component.js').then(module => {});
+
 class SkateBuilderComponent extends HTMLElement {
     constructor() {
         super();
