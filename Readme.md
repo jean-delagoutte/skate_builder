@@ -11,21 +11,21 @@ Web Component
 Inclure les 2 fichiers js :
 - caroussel-component.js
 - skatebuilder-component.js
-Créer une arborescence comme suit :
+Créer une arborescence comme suit :<br>
 img/<br>
 ├── noise/<br>
-│   ├── 1.png
-│   ├── 2.png
-│   └── 3.png
-├── central/
-│   ├── 1.png
-│   ├── 2.png
-│   └── 3.png
-├── tail/
-│   ├── 1.png
-│   ├── 2.png
-│   └── 3.png
-
+│   ├── 1.png<br>
+│   ├── 2.png<br>
+│   └── 3.png<br>
+├── central/<br>
+│   ├── 1.png<br>
+│   ├── 2.png<br>
+│   └── 3.png<br>
+├── tail/<br>
+│   ├── 1.png<br>
+│   ├── 2.png<br>
+│   └── 3.png<br>
+<br>
 Le nom et type d'image est pour l'exemple, vous pouvez unitliser ce que vous voulez (png, jpg,..)
 Toutes les images de chaque partie doivent avoir la même taille.
 
