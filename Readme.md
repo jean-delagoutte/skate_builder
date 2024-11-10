@@ -12,8 +12,8 @@ Inclure les 2 fichiers js :
 - caroussel-component.js
 - skatebuilder-component.js
 Créer une arborescence comme suit :
-img/
-├── noise/
+img/<br>
+├── noise/<br>
 │   ├── 1.png
 │   ├── 2.png
 │   └── 3.png
