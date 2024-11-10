@@ -14,17 +14,17 @@ Inclure les 2 fichiers js :
 Créer une arborescence comme suit :<br>
 img/<br>
 ├── noise/<br>
-│   ├── 1.png<br>
-│   ├── 2.png<br>
-│   └── 3.png<br>
+│       ├── 1.png<br>
+│       ├── 2.png<br>
+│       └── 3.png<br>
 ├── central/<br>
-│   ├── 1.png<br>
-│   ├── 2.png<br>
-│   └── 3.png<br>
+│       ├── 1.png<br>
+│       ├── 2.png<br>
+│       └── 3.png<br>
 ├── tail/<br>
-│   ├── 1.png<br>
-│   ├── 2.png<br>
-│   └── 3.png<br>
+│       ├── 1.png<br>
+│       ├── 2.png<br>
+│       └── 3.png<br>
 <br>
 Le nom et type d'image est pour l'exemple, vous pouvez unitliser ce que vous voulez (png, jpg,..)
 Toutes les images de chaque partie doivent avoir la même taille.
