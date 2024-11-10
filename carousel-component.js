@@ -1,82 +1,80 @@
 class CarouselComponent extends HTMLElement {
     constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
+        super();      
+        this.images = [];
+        this.currentIndex = 0;
+    }
+    render(){
+        this.innerHTML = `
             <style>
-        .carousel {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 150px;
-            margin-bottom: 5px;
-            position: relative;
-            perspective: 1000px;
-            overflow: visible;
-        }
-        .carousel img {
-            width: 150px;
-            height: auto;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            opacity: 0.2;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%) rotateY(45deg);
-            cursor: pointer;
-        }
+                .carousel {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%;
+                    overflow: visible;
+                    perspective: 1000px;
+                    position: relative;
+                }
+                .carousel img {      
+                    height: 100%;
+                    width: auto;
+                    object-fit: contain;
+                    transition: transform 0.5s ease, opacity 0.5s ease;
+                    cursor: pointer;
+                    position: absolute;
+                }
         .carousel img.current {
-            transform: translateX(0) translateY(-50%) scale(1) rotateY(0);
+            transform: translateX(0)  scale(1) rotateY(0);
             opacity: 1;
             z-index: 3;
-           /* border-style:groove;
-            border-radius: 1cap;*/
+            
         }
         .carousel img.previous {
-            transform: rotateY(-45deg) translateX(-300px) translateY(-50%) scale(0.9);
+            transform: rotateY(-45deg) translateX(-120%) scale(0.8);
             opacity: 0.5;
             z-index: 2;
         }
         .carousel img.next {
-            transform: rotateY(45deg) translateX(300px) translateY(-50%) scale(0.9);
-            opacity: 0.5;
+            transform: rotateY(45deg) translateX(120%) scale(0.8);
+            opacity: 0.7;
             z-index: 2;
-        }
+          }
         .carousel img.hidden {
-            transform: translateY(-50%) scale(0.5);
+            transform: translateY(0) scale(0.5);
             opacity: 0.1;
             z-index: 1;
         }
-                @media (max-width: 768px) {
-                    .carousel  {
-                        transform: translateX(0)  scale(0.6) ;
-                    }
-                }
             </style>
             <div class="carousel"></div>
         `;
-
-        this.images = [];
-        this.currentIndex = 0;
+    }
+    dispatchInitialImageEvent() {
+        this.dispatchEvent(new CustomEvent('imageChanged', {
+            detail: {
+                image: this.images[this.currentIndex]
+            }
+        }));
     }
 
     connectedCallback() {
         this.images = JSON.parse(this.getAttribute('images'));
+        this.render();
         this.renderImages();
         this.updateCarousel();
-
-        this.shadowRoot.querySelector('.carousel').addEventListener('mousedown', this.handleMouseDown.bind(this));
-        this.shadowRoot.querySelector('.carousel').addEventListener('mousemove', this.handleMouseMove.bind(this));
-        this.shadowRoot.querySelector('.carousel').addEventListener('mouseup', this.handleMouseUp.bind(this));
-        this.shadowRoot.querySelector('.carousel').addEventListener('mouseleave', this.handleMouseLeave.bind(this));
-        this.shadowRoot.querySelector('.carousel').addEventListener('touchstart', this.handleTouchStart.bind(this));
-        this.shadowRoot.querySelector('.carousel').addEventListener('touchmove', this.handleTouchMove.bind(this));
-        this.shadowRoot.querySelector('.carousel').addEventListener('touchend', this.handleTouchEnd.bind(this));
-        this.shadowRoot.querySelector('.carousel').addEventListener('click', this.handleClick.bind(this));
+        this.dispatchInitialImageEvent();
+        this.querySelector('.carousel').addEventListener('mousedown', this.handleMouseDown.bind(this));
+        this.querySelector('.carousel').addEventListener('mousemove', this.handleMouseMove.bind(this));
+        this.querySelector('.carousel').addEventListener('mouseup', this.handleMouseUp.bind(this));
+        this.querySelector('.carousel').addEventListener('mouseleave', this.handleMouseLeave.bind(this));
+        this.querySelector('.carousel').addEventListener('touchstart', this.handleTouchStart.bind(this));
+        this.querySelector('.carousel').addEventListener('touchmove', this.handleTouchMove.bind(this));
+        this.querySelector('.carousel').addEventListener('touchend', this.handleTouchEnd.bind(this));
+        this.querySelector('.carousel').addEventListener('click', this.handleClick.bind(this));
     }
 
     renderImages() {
-        const carousel = this.shadowRoot.querySelector('.carousel');
+        const carousel = this.querySelector('.carousel');
         carousel.innerHTML = '';
         this.images.forEach((src, index) => {
             const img = document.createElement('img');
@@ -88,7 +86,7 @@ class CarouselComponent extends HTMLElement {
     }
 
     updateCarousel() {
-        const imgs = this.shadowRoot.querySelectorAll('img');
+        const imgs = this.querySelectorAll('img');
         const nextIndex = (this.currentIndex + 1) % this.images.length;
         const prevIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
         imgs.forEach((img, index) => {
@@ -97,7 +95,7 @@ class CarouselComponent extends HTMLElement {
                 img.className = 'current';
                 this.dispatchEvent(new CustomEvent('imageChanged', {
                     detail: {
-                        image: img.src
+                        image: this.images[this.currentIndex]
                     }
                 }));
             } else if (index === nextIndex) {

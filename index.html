@@ -14,27 +14,78 @@
             height: 100vh;
             margin: 0;
         }
+        .containskate150{
+            height: 150px;  
+        }
+        .containskate300{
+            height: 300px;  
+        }
+        .containskate600{
+            height: 600px;  
+        }
     </style>
 </head>
 <body>
     <form>
-        <skatebuilder-component
-            title="Skate Builder Carousel"
+        <h2 class="title">Skate Builder Carousel 150 px</h2>
+        <div class="containskate150">
+        <skatebuilder-component id="SB150"
             noise='["./img/noise/1.png", "./img/noise/2.png", "./img/noise/3.png", "./img/noise/4.png"]'
-            central='["./img/central/1.png", "./img/central/2.png", "./img/central/3.png", "./img/central/4.png","./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png", "./img/tail/4.png"]'
-            tail='["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png", "./img/tail/4.png"]'>
+            central='["./img/central/1.png", "./img/central/2.png", "./img/central/3.png", "./img/central/4.png"]'
+            tail='["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png", "./img/tail/4.png"]'
+            noise-percentage="16.4%"
+            central-percentage="67.2%"
+            tail-percentage="16.4%">
         </skatebuilder-component>
-        <input type="hidden" id="skatebuilderValue" readonly>
+        </div>
+        <input type="text" id="skatebuilderValue150" readonly> 
+        <h2 class="title">Skate Builder Carousel 300 px</h2>
+        <div class="containskate300">
+        <skatebuilder-component id="SB300"
+            noise='["./img/noise/1.png", "./img/noise/2.png", "./img/noise/3.png", "./img/noise/4.png"]'
+            central='["./img/central/1.png", "./img/central/2.png", "./img/central/3.png", "./img/central/4.png"]'
+            tail='["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png", "./img/tail/4.png"]'
+            noise-percentage="16.4%"
+            central-percentage="67.2%"
+            tail-percentage="16.4%">
+        </skatebuilder-component>
+        </div>
+        <input type="text" id="skatebuilderValue300" readonly> 
+        <h2 class="title">Skate Builder Carousel 600 px</h2>
+        <div class="containskate600">
+        <skatebuilder-component id="SB600"
+            noise='["./img/noise/1.png", "./img/noise/2.png", "./img/noise/3.png", "./img/noise/4.png"]'
+            central='["./img/central/1.png", "./img/central/2.png", "./img/central/3.png", "./img/central/4.png"]'
+            tail='["./img/tail/1.png", "./img/tail/2.png", "./img/tail/3.png", "./img/tail/4.png"]'
+            noise-percentage="16.4%"
+            central-percentage="67.2%"
+            tail-percentage="16.4%">
+        </skatebuilder-component>
+        </div>
+        <input type="text" id="skatebuilderValue600" readonly>    
     </form>
 
     <script src="carousel-component.js"></script>
     <script src="skatebuilder-component.js"></script>
     <script>
-        const skatebuilderComponent = document.querySelector('skatebuilder-component');
-        const skatebuilderValueInput = document.getElementById('skatebuilderValue');
-
-        skatebuilderComponent.addEventListener('change', () => {
-            skatebuilderValueInput.value = skatebuilderComponent.value;
+        const skatebuilderComponent150 = document.getElementById('SB150');
+        const skatebuilderValueInput150 = document.getElementById('skatebuilderValue150');
+        skatebuilderComponent150.addEventListener('change', () => {
+            skatebuilderValueInput150.value = skatebuilderComponent150.value;
+        });
+    </script>
+    <script>
+        const skatebuilderComponent300 = document.getElementById('SB300');
+        const skatebuilderValueInput300 = document.getElementById('skatebuilderValue300');
+        skatebuilderComponent300.addEventListener('change', () => {
+            skatebuilderValueInput300.value = skatebuilderComponent300.value;
+        });
+    </script>
+    <script>
+        const skatebuilderComponent600 = document.getElementById('SB600');
+        const skatebuilderValueInput600 = document.getElementById('skatebuilderValue600');
+        skatebuilderComponent600.addEventListener('change', () => {
+            skatebuilderValueInput600.value = skatebuilderComponent600.value;
         });
     </script>
 </body>
