@@ -11,6 +11,7 @@ Web Component
 Inclure les 2 fichiers js :
 - caroussel-component.js
 - skatebuilder-component.js
+  
 Créer une arborescence comme suit :<br>
 img/<br>
 ├── noise/<br>
